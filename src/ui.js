@@ -299,8 +299,22 @@ function createAuthUI(options = {}) {
    * 隐藏验证界面
    */
   function hide() {
-    if (overlayElement && overlayElement.parentNode) {
-      overlayElement.parentNode.removeChild(overlayElement);
+    // 方式1: 通过引用移除
+    if (overlayElement) {
+      try {
+        overlayElement.remove();
+      } catch (e) {
+        // fallback: 通过父节点移除
+        if (overlayElement.parentNode) {
+          overlayElement.parentNode.removeChild(overlayElement);
+        }
+      }
+    }
+    
+    // 方式2: 通过选择器确保移除（防止引用丢失的情况）
+    const existingOverlay = document.querySelector('.jsauth-overlay');
+    if (existingOverlay) {
+      existingOverlay.remove();
     }
   }
 
@@ -308,10 +322,29 @@ function createAuthUI(options = {}) {
    * 销毁实例
    */
   function destroy() {
+    // 先移除 overlay
     hide();
-    if (styleElement && styleElement.parentNode) {
-      styleElement.parentNode.removeChild(styleElement);
+    
+    // 移除样式
+    if (styleElement) {
+      try {
+        styleElement.remove();
+      } catch (e) {
+        if (styleElement.parentNode) {
+          styleElement.parentNode.removeChild(styleElement);
+        }
+      }
     }
+    
+    // 通过选择器确保样式也被移除
+    const existingStyles = document.querySelectorAll('style');
+    existingStyles.forEach(style => {
+      if (style.textContent && style.textContent.includes('.jsauth-overlay')) {
+        style.remove();
+      }
+    });
+    
+    // 清空引用
     overlayElement = null;
     styleElement = null;
   }

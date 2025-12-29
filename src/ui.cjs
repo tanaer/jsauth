@@ -270,16 +270,44 @@ function createAuthUI(options = {}) {
   }
 
   function hide() {
-    if (overlayElement && overlayElement.parentNode) {
-      overlayElement.parentNode.removeChild(overlayElement);
+    // 方式1: 通过引用移除
+    if (overlayElement) {
+      try {
+        overlayElement.remove();
+      } catch (e) {
+        if (overlayElement.parentNode) {
+          overlayElement.parentNode.removeChild(overlayElement);
+        }
+      }
+    }
+    
+    // 方式2: 通过选择器确保移除
+    const existingOverlay = document.querySelector('.jsauth-overlay');
+    if (existingOverlay) {
+      existingOverlay.remove();
     }
   }
 
   function destroy() {
     hide();
-    if (styleElement && styleElement.parentNode) {
-      styleElement.parentNode.removeChild(styleElement);
+    
+    if (styleElement) {
+      try {
+        styleElement.remove();
+      } catch (e) {
+        if (styleElement.parentNode) {
+          styleElement.parentNode.removeChild(styleElement);
+        }
+      }
     }
+    
+    const existingStyles = document.querySelectorAll('style');
+    existingStyles.forEach(style => {
+      if (style.textContent && style.textContent.includes('.jsauth-overlay')) {
+        style.remove();
+      }
+    });
+    
     overlayElement = null;
     styleElement = null;
   }
