@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSAuth UI组件示例</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .app-content {
+      background: #fff;
+      border-radius: 16px;
+      padding: 50px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 { color: #333; margin-bottom: 10px; }
+    p { color: #666; margin-bottom: 30px; }
+    .status {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #d4edda;
+      color: #155724;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-content" id="app" style="display: none;">
+    <h1>🎉 欢迎使用</h1>
+    <p>您已成功通过密码验证</p>
+    <span class="status">✓ 已授权</span>
+  </div>
+
+  <script type="module">
+    import { requireAuth } from '../src/ui.js';
+
+    // 程序启动时要求密码验证
+    // 验证成功后才显示应用内容
+    async function init() {
+      try {
+        await requireAuth({
+          title: '应用授权',
+          subtitle: '请输入密码以启动应用程序',
+          buttonText: '确认授权'
+        });
+        
+        // 验证成功，显示应用内容
+        document.getElementById('app').style.display = 'block';
+        
+      } catch (error) {
+        // 验证失败处理
+        console.error('验证失败:', error);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

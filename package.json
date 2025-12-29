@@ -1,0 +1,43 @@
+{
+  "name": "@tanaer/jsauth",
+  "version": "1.0.0",
+  "description": "通用JS密码验证组件，支持Electron/Tauri桌面应用",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./src/index.cjs"
+    },
+    "./ui": {
+      "import": "./src/ui.js",
+      "require": "./src/ui.cjs"
+    }
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "auth",
+    "password",
+    "verification",
+    "electron",
+    "tauri",
+    "desktop"
+  ],
+  "author": "tanaer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanaer/jsauth.git"
+  },
+  "homepage": "https://github.com/tanaer/jsauth#readme",
+  "bugs": {
+    "url": "https://github.com/tanaer/jsauth/issues"
+  }
+}
